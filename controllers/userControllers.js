@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
+const jwt = require('jsonwebtoken');
 
 // Register a new user
 const registerUser =asyncHandler( async (req, res, next) => {
@@ -26,14 +27,39 @@ const registerUser =asyncHandler( async (req, res, next) => {
     res.status(201).json({email: user.email, username: user.username});
 });
 
-// Login an existing user
-const loginUser = async (req, res, next) => {
-    res.status(200).json({ message: 'Login' });
-}
 
-// current user
+
+// Login an existing user
+const loginUser = asyncHandler(async (req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        res.status(400);
+        throw new Error('Please fill in all fields');
+    }
+    const existUser = await User.findOne({ email });
+    if (!existUser) {
+        res.status(400);
+        throw new Error('User not found');
+    }
+    const passwordMatch = await bcrypt.compare(password, existUser.password);
+    if (!passwordMatch) {
+        res.status(401);
+        throw new Error('Inccorect Passowrd');
+    }
+    const accessToken = jwt.sign({username:existUser.username, email: existUser.email, id: existUser._id }, process.env.JWT_SECRET, { expiresIn: '0.5m' });
+    res.status(200).json({ id: existUser._id, email:existUser.email, username: existUser.username, accessToken });
+});
+
+
+
+
+
+
+
+//@ access private
+//@desc get current user
 const currentUser = async (req, res, next) => {
-    res.status(200).json({ message: 'Current' });
+    res.status(200).json({ user: req.user });
 }
 
 module.exports = {
