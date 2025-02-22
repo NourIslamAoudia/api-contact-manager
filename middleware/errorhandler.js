@@ -1,16 +1,18 @@
 const { constants } = require("../constants");
-const { stack } = require("../routes/contactRouters");
 
 
 const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500;
+    res.status(statusCode); // Ajouté ici
+    console.log('Error Handler', statusCode);
+
     switch (statusCode) {
         case constants.VALIDATION_ERROR:
-           res.json({
-            title: 'Validation Error',
-            message: err.message,
-            stack: process.env.NODE_ENV === 'production' ? 'stack' : err.stack
-           });
+            res.json({
+                title: 'Validation Error',
+                message: err.message,
+                stack: process.env.NODE_ENV === 'production' ? 'stack' : err.stack
+            });
             break;
         case constants.NOT_FOUND:
             res.json({
@@ -39,10 +41,17 @@ const errorHandler = (err, req, res, next) => {
                 message: err.message,
                 stack: process.env.NODE_ENV === 'production' ? 'stack' : err.stack
             });
+            break;
         default:
-            console.log('No error handler, good !');
+            console.log('No error handler !');
+            res.json({
+                title: 'Unknown Error',
+                message: err.message,
+                stack: process.env.NODE_ENV === 'production' ? 'stack' : err.stack
+            });
             break;
     }
 };
+
 
 module.exports = errorHandler;

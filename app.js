@@ -1,22 +1,27 @@
 const express = require('express');
 const dotenv = require('dotenv');
-dotenv.config();
-const app = express();
-const port = process.env.PORT || 3000;
 const contactRouter = require('./routes/contactRouters');
 const errorHandler = require('./middleware/errorhandler');
 const dbConnect = require('./config/dbConnect');
 
+dotenv.config();
 
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Connect to the database
 dbConnect();
 
+// Middleware to parse the body as JSON
+app.use(express.json());
 
-app.use(express.json());//middleware pour parser le body en json de client
+// Routes
 app.use('/contact', contactRouter);
-app.use(errorHandler);//middleware pour gérer les erreurs
 
+// Error handling middleware
+app.use(errorHandler);
 
-  
+// Start the server
 app.listen(port, () => {
   console.log(`Serveur démarré sur http://localhost:${port}`);
 });
