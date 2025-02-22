@@ -2,7 +2,6 @@
 
 const asyncHandler = require('express-async-handler');
 const Contact = require('../models/contactModel');
-const mongoose = require('mongoose');
 
 
 //c rigli

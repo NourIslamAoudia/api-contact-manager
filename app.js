@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const contactRouter = require('./routes/contactRouters');
 const errorHandler = require('./middleware/errorhandler');
 const dbConnect = require('./config/dbConnect');
+const userRouter = require('./routes/userRouters');
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // Routes
 app.use('/contact', contactRouter);
+app.use('/user', userRouter);
 
 // Error handling middleware
 app.use(errorHandler);
