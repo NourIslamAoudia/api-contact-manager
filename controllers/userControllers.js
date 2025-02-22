@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 
+
+
 // Register a new user
 const registerUser =asyncHandler( async (req, res, next) => {
     const {username, email, password} = req.body;
@@ -46,12 +48,9 @@ const loginUser = asyncHandler(async (req, res, next) => {
         res.status(401);
         throw new Error('Inccorect Passowrd');
     }
-    const accessToken = jwt.sign({username:existUser.username, email: existUser.email, id: existUser._id }, process.env.JWT_SECRET, { expiresIn: '0.5m' });
+    const accessToken = jwt.sign({username:existUser.username, email: existUser.email, id: existUser._id }, process.env.JWT_SECRET, { expiresIn: '10m' });
     res.status(200).json({ id: existUser._id, email:existUser.email, username: existUser.username, accessToken });
 });
-
-
-
 
 
 

@@ -4,9 +4,12 @@ const asyncHandler = require('express-async-handler');
 const Contact = require('../models/contactModel');
 
 
+//all private routes
+//middleware to protect routes
+
 //c rigli
 const getAllContacts =asyncHandler( async (req, res) => {
-    const contacts=await Contact.find();
+    const contacts = await Contact.find({ user_id: req.user.id });
     res.status(200).json({ message: 'get-all-contacts', contacts });
 });
 
@@ -19,6 +22,11 @@ const getContact = asyncHandler(async (req, res, next) => {
         if (!contact) {
             res.status(404);
             throw new Error('Contact not found');
+        }
+
+        if(req.user.id !== contact.user_id.toString()){
+            res.status(401);
+            throw new Error('Not authorized');
         }
         res.status(200).json({ message: "get-contact", contact });
 
@@ -39,6 +47,7 @@ const addContact =asyncHandler( async (req, res) => {
         throw new Error('All fields are required');
     }
     const contact = new Contact({
+        user_id: req.user.id,
         name,
         email,
         phone
@@ -71,6 +80,11 @@ const updateContact = asyncHandler(async (req, res) => {
             throw new Error('Contact not found');
         }
 
+        if(req.user.id !== contact.user_id.toString()){
+            res.status(401);
+            throw new Error('Not authorized');
+        }
+
         res.status(200).json({ message: 'update-contact', contact });
     } catch (error) {
         if (error.name === "CastError") {
@@ -88,6 +102,12 @@ const deleteContact = asyncHandler(async (req, res) => {
             res.status(404);
             throw new Error('Contact not found');
         }
+
+        if(req.user.id !== contact.user_id.toString()){
+            res.status(401);
+            throw new Error('Not authorized');
+        }
+        
         res.status(200).json({ message: 'delete-contact', contact });
     } catch (error) {
         if (error.name === "CastError") {
@@ -96,8 +116,6 @@ const deleteContact = asyncHandler(async (req, res) => {
         throw error;
     }
 });
-
-
 
 
 module.exports = {
