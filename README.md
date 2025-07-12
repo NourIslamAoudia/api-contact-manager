@@ -2,6 +2,10 @@
 
 Une API REST complète pour la gestion de contacts avec authentification JWT et sécurisation des routes. Cette application permet aux utilisateurs de s'inscrire, se connecter et gérer leurs contacts personnels de manière sécurisée.
 
+## 🌐 Demo Live
+
+**API déployée sur Vercel :** [https://votre-api.vercel.app](https://votre-api.vercel.app)
+
 ## 🚀 Fonctionnalités
 
 ### 👥 Gestion des Utilisateurs
@@ -15,6 +19,7 @@ Une API REST complète pour la gestion de contacts avec authentification JWT et 
 - ✅ **Contacts privés** : Chaque utilisateur ne peut accéder qu'à ses propres contacts
 - ✅ **Validation** : Tous les champs sont validés (nom, email, téléphone)
 - ✅ **Autorisation** : Vérification des droits d'accès pour chaque opération
+- ✅ **CORS activé** : Accessible depuis n'importe quel domaine
 
 ## 🛠️ Technologies Utilisées
 
@@ -80,6 +85,38 @@ npm start
 ```
 
 L'API sera accessible sur `http://localhost:3000`
+
+## 🚀 Déploiement sur Vercel
+
+Cette API est prête à être déployée sur Vercel. Suivez ces étapes :
+
+### 1. Préparer votre compte
+- Créez un compte sur [Vercel](https://vercel.com)
+- Connectez votre repository GitHub
+
+### 2. Variables d'environnement
+Configurez ces variables dans le dashboard Vercel :
+```
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/database
+ACCESS_TOKEN_SECRET=votre_clé_secrète_jwt_très_longue_et_sécurisée
+NODE_ENV=production
+```
+
+### 3. Déploiement automatique
+- Poussez votre code sur GitHub
+- Importez le projet dans Vercel
+- Le déploiement se fait automatiquement !
+
+### 4. Test de l'API déployée
+```bash
+# Test de santé
+curl https://votre-api.vercel.app/health
+
+# Inscription d'un utilisateur
+curl -X POST https://votre-api.vercel.app/user/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"test","email":"test@example.com","password":"123456"}'
+```
 
 ## 📚 Documentation de l'API
 

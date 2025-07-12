@@ -1,16 +1,20 @@
 {
-  "name": "tuto-express",
+  "name": "api-contact-manager",
   "version": "1.0.0",
   "main": "app.js",
+  "engines": {
+    "node": ">=18.x"
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "build": "echo 'Build complete'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["api", "contact", "manager", "express", "mongodb"],
+  "author": "Nour Islam Aoudia",
   "license": "ISC",
-  "description": "",
+  "description": "API de gestion de contacts avec authentification JWT",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
