@@ -4,13 +4,9 @@ const dbConnect = async () => {
     try {
         // Configuration pour la production
         const options = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
             maxPoolSize: 10, // Limite de connexions simultanées
             serverSelectionTimeoutMS: 5000, // Timeout pour la sélection du serveur
             socketTimeoutMS: 45000, // Timeout pour les opérations
-            bufferMaxEntries: 0, // Disable mongoose buffering
-            bufferCommands: false, // Disable mongoose buffering
         };
 
         const conn = await mongoose.connect(process.env.MONGO_URI, options);
