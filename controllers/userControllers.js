@@ -48,7 +48,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         res.status(401);
         throw new Error('Inccorect Passowrd');
     }
-    const accessToken = jwt.sign({username:existUser.username, email: existUser.email, id: existUser._id }, process.env.JWT_SECRET, { expiresIn: '10m' });
+    const accessToken = jwt.sign({username:existUser.username, email: existUser.email, id: existUser._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
     res.status(200).json({ id: existUser._id, email:existUser.email, username: existUser.username, accessToken });
 });
 
